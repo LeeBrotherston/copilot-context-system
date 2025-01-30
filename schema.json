@@ -1,0 +1,230 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "title": "Copilot Context Schema",
+    "type": "object",
+    "required": ["metadata", "validation", "constraints", "designDecisions", "failureHistory", "contextPersistence"],
+    "properties": {
+        "metadata": {
+            "type": "object",
+            "required": ["version", "schemaUrl", "compatibility", "repositoryInfo", "conversationHistory", "conversationId", "created", "lastUpdated"],
+            "properties": {
+                "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+                "schemaUrl": {
+                    "type": "string",
+                    "pattern": "^(https?:\\/\\/[\\w.-]+\\.[\\w.-]+([\\/#?].*)?|\\.[\\w/.-]+)$"
+                },
+                "compatibility": {
+                    "type": "object",
+                    "required": ["minVersion", "maxVersion"],
+                    "properties": {
+                        "minVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+                        "maxVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+                    }
+                },
+                "repositoryInfo": {
+                    "type": "object",
+                    "properties": {
+                        "url": { "type": "string" },
+                        "branch": { "type": "string" },
+                        "commit": { "type": "string" },
+                        "rootPath": { "type": "string" }
+                    }
+                },
+                "conversationHistory": {
+                    "type": "object",
+                    "properties": {
+                        "currentId": { "type": "string" },
+                        "parentId": { "type": "string" },
+                        "thread": { "type": "string" },
+                        "contextFileLocation": { "type": "string" },
+                        "author": { "type": "string" },
+                        "collaborators": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                        }
+                    }
+                },
+                "conversationId": { "type": "string" },
+                "created": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                },
+                "lastUpdated": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                }
+            }
+        },
+        "validation": {
+            "type": "object",
+            "required": ["lastValidated", "schemaVersion", "validationTool"],
+            "properties": {
+                "lastValidated": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                },
+                "schemaVersion": { "type": "string" },
+                "validationTool": { "type": "string" }
+            }
+        },
+        "constraints": {
+            "type": "object",
+            "properties": {
+                "doNotEditFiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["path", "reason", "severity", "addedAt", "author"],
+                        "properties": {
+                            "path": { "type": "string" },
+                            "reason": { "type": "string" },
+                            "severity": { "type": "string", "enum": ["strict", "warning"] },
+                            "addedAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "packageConstraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["package", "constraint", "reason", "severity", "addedAt", "author"],
+                        "properties": {
+                            "package": { "type": "string" },
+                            "constraint": { "type": "string" },
+                            "reason": { "type": "string" },
+                            "severity": { "type": "string", "enum": ["strict", "warning"] },
+                            "addedAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "otherConstraints": { "type": "array" }
+            }
+        },
+        "designDecisions": {
+            "type": "object",
+            "properties": {
+                "architecture": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["decision", "rationale", "alternatives", "madeAt", "author"],
+                        "properties": {
+                            "decision": { "type": "string" },
+                            "rationale": { "type": "string" },
+                            "alternatives": { "type": "array", "items": { "type": "string" } },
+                            "madeAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["pattern", "rationale", "applicability", "madeAt", "author"],
+                        "properties": {
+                            "pattern": { "type": "string" },
+                            "rationale": { "type": "string" },
+                            "applicability": { "type": "array", "items": { "type": "string" } },
+                            "madeAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "implementation": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["detail", "scope", "impact", "madeAt", "author"],
+                        "properties": {
+                            "detail": { "type": "string" },
+                            "scope": { "type": "string" },
+                            "impact": { "type": "array", "items": { "type": "string" } },
+                            "madeAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                },
+                "dependencies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["name", "version", "purpose", "addedAt", "author"],
+                        "properties": {
+                            "name": { "type": "string" },
+                            "version": { "type": "string" },
+                            "purpose": { "type": "string" },
+                            "addedAt": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            },
+                            "author": { "type": "string", "pattern": "^[a-zA-Z0-9-]+$" },
+                            "approvedBy": { "type": "array", "items": { "type": "string" } }
+                        }
+                    }
+                }
+            }
+        },
+        "failureHistory": {
+            "type": "object",
+            "properties": {
+                "attempts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["approach", "error", "context", "timestamp"],
+                        "properties": {
+                            "approach": { "type": "string" },
+                            "error": { "type": "string" },
+                            "context": { "type": "string" },
+                            "timestamp": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})$"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contextPersistence": {
+            "type": "object",
+            "required": ["storageLocation", "previousContextFiles", "mergeStrategy", "conflictResolution"],
+            "properties": {
+                "storageLocation": { "type": "string" },
+                "previousContextFiles": { "type": "array", "items": { "type": "string" } },
+                "mergeStrategy": { "type": "string", "enum": ["override", "append", "smart"] },
+                "threadNaming": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9-]+(/[a-z0-9-]+)*$"
+                },
+                "conflictResolution": {
+                    "type": "string",
+                    "enum": ["latest-wins", "manual-merge", "require-review"]
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

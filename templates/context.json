@@ -1,0 +1,53 @@
+{
+    "metadata": {
+        "version": "1.0.0",
+        "schemaUrl": "../schema.json",
+        "compatibility": {
+            "minVersion": "1.0.0",
+            "maxVersion": "2.0.0"
+        },
+        "repositoryInfo": {
+            "url": "",
+            "branch": "main",
+            "commit": "",
+            "rootPath": ""
+        },
+        "conversationHistory": {
+            "currentId": "",
+            "parentId": "",
+            "thread": "main",
+            "contextFileLocation": ".vscode/copilot/context.json",
+            "author": "",
+            "collaborators": []
+        },
+        "conversationId": "initial",
+        "created": "2024-01-20T00:00:00Z",
+        "lastUpdated": "2024-01-20T00:00:00Z"
+    },
+    "validation": {
+        "lastValidated": "2024-01-20T00:00:00Z",
+        "schemaVersion": "1.0.0",
+        "validationTool": "ajv-cli"
+    },
+    "constraints": {
+        "doNotEditFiles": [],
+        "packageConstraints": [],
+        "otherConstraints": []
+    },
+    "designDecisions": {
+        "architecture": [],
+        "patterns": [],
+        "implementation": [],
+        "dependencies": []
+    },
+    "failureHistory": {
+        "attempts": []
+    },
+    "contextPersistence": {
+        "storageLocation": ".vscode/copilot/contexts",
+        "previousContextFiles": [],
+        "mergeStrategy": "smart",
+        "threadNaming": "feature/name",
+        "conflictResolution": "manual-merge"
+    }
+}

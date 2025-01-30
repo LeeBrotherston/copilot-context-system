@@ -1,0 +1,17 @@
+{
+    "github.copilot.enable": {
+        "*": true
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.advanced": {
+        "useGlobalInstructionFiles": true,
+        "globalInstructionFiles": [
+            ".vscode/copilot/context-system.md"
+        ],
+        "threadManagement": "perFile",
+        "contextMergeStrategy": "smart",
+        "contextValidation": true
+    }
+}
+{ "peacock.surpriseMeOnStartup": true }
+{ "peacock.surpriseMeOnStartup": true }

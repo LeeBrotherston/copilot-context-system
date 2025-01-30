@@ -1,0 +1,5 @@
+# Context system temporary files
+.vscode/copilot/contexts/temp/
+.vscode/copilot/contexts/archived/
+.vscode/copilot/**/*.tmp.json
+.vscode/copilot/**/*.backup.json

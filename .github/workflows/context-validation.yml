@@ -1,0 +1,44 @@
+name: Context Validation
+
+on:
+  push:
+    paths:
+      - '.vscode/copilot/**/*.json'
+      - 'schema.json'
+  pull_request:
+    paths:
+      - '.vscode/copilot/**/*.json'
+      - 'schema.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install ajv ajv-cli ajv-formats
+
+      - name: Validate Schema
+        run: npx ajv-cli validate -s schema.json -d ".vscode/copilot/**/*.json" --spec=draft2019 --strict=false
+
+      - name: Check Author Format
+        run: |
+          for file in $(find .vscode/copilot -name "*.json"); do
+            if jq -e '.designDecisions.architecture[] | select(.author | test("^[a-zA-Z0-9-]+$") | not)' "$file" > /dev/null; then
+              echo "Invalid author format found in $file"
+              exit 1
+            fi
+          done
+
+      - name: Verify Required Fields
+        run: |
+          for file in $(find .vscode/copilot -name "*.json"); do
+            if ! jq -e '.metadata.conversationHistory.author' "$file" > /dev/null; then
+              echo "Missing author in conversation history in $file"
+              exit 1
+            fi
+          done
