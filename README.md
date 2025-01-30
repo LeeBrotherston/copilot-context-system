@@ -16,8 +16,43 @@ This context is intended to help copilot avoid things like breaking previously d
 
 This has been tested via use with the `Claude 3.5 Sonnet` model, and seems fine with `GPT 4o` from a cursory check, but it does not contain anything specific to this or any other model and so should work fairly universally.
 
+## Quickstart 🚀
 
-## Setup
+If you're using VSCode you can either:
+
+- Use this repository as a template for your project
+
+or
+
+- Clone this repository and copy the `.vscode` directory and `schema.json` file into the root of your project's repository
+
+Technically that's it, but I would recommend opening up `.vscode/copilot/context.json` and filling in the repository info too.
+
+And that's about it really... you can verify that it's working with this prompt....
+
+```
+Please perform a context system verification:
+
+1. Read and parse .vscode/copilot/context.json
+2. Confirm schema version and validation settings
+3. Verify your access to:
+   - Context file location
+   - Merge strategy
+   - Threading configuration
+4. List any existing:
+   - Constraints
+   - Design decisions
+   - Conversation history
+
+Please respond with:
+- Setup status (success/failure)
+- Any access or parsing errors
+- List of missing or incorrect settings
+- Confirmation that you can read and update context
+```
+
+
+## Setup (less quick)
 
 ### VSCode Configuration (manual)
 
